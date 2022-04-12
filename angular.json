@@ -34,6 +34,7 @@
               "projects/indices-app/src/assets"
             ],
             "styles": [
+              "node_modules/animate.css/animate.min.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "projects/indices-app/src/styles.scss"
             ],

@@ -2,7 +2,8 @@
   <div class="row d-flex justify-content-center">
 
 
-    <form class="col-12 col-md-6 mb-4" [formGroup]="accessForm" (ngSubmit)="getIndices()">
+    <!-- AccessForm -->
+    <form class="animate__animated animate__fadeIn col-12 col-md-6 mb-4" [formGroup]="accessForm" (ngSubmit)="getIndices()" *ngIf="!indices">
       <div class="row d-flex justify-content-center">
 
         <div class="col-12 text-center mb-2">
@@ -29,7 +30,9 @@
 
     </form>
     <div class="w-100"></div>
-    <div class="col-12 col-md-6 mb-4" *ngIf="false">
+
+    <!-- IndiceForm -->
+    <div class="animate__animated animate__fadeIn col-12 col-md-6 mb-4" *ngIf="indices">
       <div class="card" [formGroup]="indiceForm">
         <select class="form-select" aria-label="Default select example" formControlName="nombre">
           <option [value]="null">Selecciona un Indice</option>
@@ -38,11 +41,15 @@
       </div>
     </div>
     <div class="w-100"></div>
-    <div class="col-12 col-md-6 mt-5 mb-2 " *ngIf="indiceSelected">
+
+    <!-- Grfaics -->
+    <div class="animate__animated animate__fadeIn col-12 col-md-6 mt-5 mb-2 " *ngIf="indiceSelected">
       <app-grafics [min]="min" [max]="max" [title]="indiceSelected.Nombre"></app-grafics>
     </div>
     <div class="w-100"></div>
-    <div class="col-12 col-md-6" *ngIf="indiceSelected">
+
+    <!-- Details -->
+    <div class="animate__animated animate__fadeIn col-12 col-md-6" *ngIf="indiceSelected">
       <div class="d-grid gap-2">
         <button class="btn btn-primary rounded-pill" type="button" data-bs-toggle="offcanvas"
           data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Ver detalles

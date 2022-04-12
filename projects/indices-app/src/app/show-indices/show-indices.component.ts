@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { IndicesService } from '../shared/services/indices.service';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 import { Indice } from './indice';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SwalalertService } from '../shared/services/swalalert.service';
 
 @Component({
   selector: 'app-show-indices',
@@ -24,6 +24,7 @@ export class ShowIndicesComponent implements OnInit {
 
   constructor(
     private indicesService: IndicesService,
+    private swalalertService: SwalalertService,
     private fb: FormBuilder,
   ) { }
 
@@ -34,11 +35,18 @@ export class ShowIndicesComponent implements OnInit {
     this.indiceForm = this.fb.group({
       nombre: [null, []]
     });
-    this.getIndices();
-    this.changeIndice();
+  }
 
-
-
+  validForm(form: FormGroup): boolean {
+    if (form.invalid) {
+      Object.values(form.controls).forEach(control => {
+        if (control instanceof FormGroup) {
+          this.validForm(control)
+        }
+        control.markAsTouched();
+      })
+    }
+    return form.valid;
   }
 
   isValid(form: FormGroup, control: string){
@@ -51,39 +59,15 @@ export class ShowIndicesComponent implements OnInit {
 
 
   getIndices() {
-    if (!this.accessForm.valid) {
-      return;
+    this.swalalertService.proccessSwal();
+    if (!this.validForm(this.accessForm)) {
+      return this.swalalertService.showError('Error','Formualrio incorrecto vuelve a intentar');
     }
-    // this.indices = [
-    //   {
-    //     "Nombre": "SPCLXIGPA",
-    //     "Valor": 25262.03,
-    //     "Mayor": 25267.57,
-    //     "Menor": 25126.53952593,
-    //     "Medio": 0,
-    //     "Variacion": 0.54
-    //   },
-    //   {
-    //     "Nombre": "SP IPSA",
-    //     "Valor": 4938.5,
-    //     "Mayor": 4939.85,
-    //     "Menor": 4918.792733865,
-    //     "Medio": 0,
-    //     "Variacion": 0.4
-    //   },
-    //   {
-    //     "Nombre": "SPCLXIN10",
-    //     "Valor": 7215.14,
-    //     "Mayor": 7215.14,
-    //     "Menor": 7151.370030059,
-    //     "Medio": 0,
-    //     "Variacion": 0.89
-    //   }
-    // ];
-    this.indices = [];
+
+    this.indices = null;
     this.indicesService.getçIndices(this.accessForm.get('accessKey').value).subscribe((indices: Indice[]) => {
       if (!indices) {
-        return;
+        return this.swalalertService.showError('Error','Acceso denegado por favor vuelve a intentar');
       }
       this.indices = indices;
       this.changeIndice();
