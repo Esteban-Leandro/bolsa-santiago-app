@@ -63,13 +63,14 @@ export class ShowIndicesComponent implements OnInit {
     if (!this.validForm(this.accessForm)) {
       return this.swalalertService.showError('Error','Formualrio incorrecto vuelve a intentar');
     }
-
     this.indices = null;
     this.indicesService.getçIndices(this.accessForm.get('accessKey').value).subscribe((indices: Indice[]) => {
       if (!indices) {
         return this.swalalertService.showError('Error','Acceso denegado por favor vuelve a intentar');
       }
       this.indices = indices;
+
+      this.swalalertService.showConfirm('Acceso Correcto', 'Ya puedes ingresar', 'continaur', 'success');
       this.changeIndice();
     })
 
