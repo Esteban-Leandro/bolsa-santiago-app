@@ -13,7 +13,7 @@ export class IndicesService {
 
 
   getçIndices(){
-    return this.http.post('https://startup.bolsadesantiago.com/api/consulta/TickerOnDemand/getIndices?access_token=C96DEA4C3D764142901DA2BC707CC118',{})
+    return this.http.post('https://startup.bolsadesantiago.com/api/consulta/TickerOnDemand/getIndices?access_token=AF7FCC12F4E148EEADFCACBDA961A5AA',{})
       .pipe(
         map((resp:any)=>{
           return resp.listaResult;

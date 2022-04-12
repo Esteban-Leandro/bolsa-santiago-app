@@ -1,1 +1,19 @@
-<p>show-indices works!</p>
+<div class="container mt-5">
+  <div class="row d-flex justify-content-center">
+
+    <div class="col-12 col-md-6 mb-4" *ngIf="indices">
+      <div class="card" [formGroup]="indiceForm">
+        <select class="form-select" aria-label="Default select example" formControlName="indice">
+          <option [value]="null">Selecciona un Indice</option>
+          <option [value]="item.Nombre" *ngFor="let item of indices">{{item.Nombre}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="w-100"></div>
+    <div class="col-12 col-md-6" *ngIf="dataSet?.length >=1 ">
+
+      <app-grafics [datasets]="dataSet" [labels]="['Valores']"></app-grafics>
+
+    </div>
+  </div>
+</div>
