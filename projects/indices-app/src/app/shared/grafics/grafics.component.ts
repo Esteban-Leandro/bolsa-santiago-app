@@ -1,8 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-
-import { ChartConfiguration, ChartData, ChartEvent, ChartType, Chart } from 'chart.js';
-import { BaseChartDirective } from 'ng2-charts';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { Observable } from 'rxjs';
+import { IndicesService } from '../services/indices.service';
 
 @Component({
   selector: 'app-grafics',
@@ -11,42 +9,59 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 })
 export class GraficsComponent implements OnInit {
 
-  @Input() public labels: string[];
-  @Input() public datasets : any[];
 
-  @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
+  public resultsObservable: Observable<any[]> = this.indicesService.getGrafics$;
+  public results: any[];
+  @Input() public title: string;
+  @Input() public min: number;
+  @Input() public max: number;
 
-  public barChartOptions: ChartConfiguration['options'] = {
-    responsive: true,
-    // We use these empty structures as placeholders for dynamic theming.
-    scales: {
-      x: {},
-      y: {
-        min: 10
+
+  view: any = [700, 400];
+
+  // options
+  showXAxis = true;
+  showYAxis = true;
+  gradient = false;
+  showLegend = true;
+  showXAxisLabel = true;
+  showYAxisLabel = false;
+  yAxisLabel = '';
+
+  colorScheme = 'nightLights'
+
+
+
+
+  constructor(
+    private indicesService: IndicesService
+  ) {
+    this.resultsObservable.subscribe((results: any[])=>{
+      if (!results) {
+        return;
       }
-    },
-    plugins: {
-      legend: {
-        display: true,
-      },
-      datalabels: {
-        anchor: 'end',
-        align: 'end'
-      }
-    }
-  };
-  public barChartType: ChartType = 'bar';
-
-  public barChartData: ChartData<'bar'>
-
-
-  constructor() { }
+      this.results = results;
+    })
+  }
 
   ngOnInit(): void {
-    this.barChartData = {
-      labels: [ 'valores'],
-      datasets: this.datasets
-    };
+    console.log(this.results)
+
   }
+
+
+  onSelect(data): void {
+    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
+  }
+
+  onActivate(data): void {
+    console.log('Activate', JSON.parse(JSON.stringify(data)));
+  }
+
+  onDeactivate(data): void {
+    console.log('Deactivate', JSON.parse(JSON.stringify(data)));
+  }
+
+
 
 }

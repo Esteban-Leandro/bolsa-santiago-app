@@ -1,19 +1,69 @@
 <div class="container mt-5">
   <div class="row d-flex justify-content-center">
 
-    <div class="col-12 col-md-6 mb-4" *ngIf="indices">
+
+    <form class="col-12 col-md-6 mb-4" [formGroup]="accessForm" (ngSubmit)="getIndices()">
+      <div class="row d-flex justify-content-center">
+
+        <div class="col-12 text-center mb-2">
+          <h1 class="text-white ">Ingresa tu access Key </h1>
+        </div>
+        <div class="col-12">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control"  [class.is-valid]="isValid(accessForm,'accessKey')" [class.is-invalid]="isInValid(accessForm,'accessKey')" id="floatingInput" placeholder="ingresa tu access key" formControlName="accessKey">
+            <label for="floatingInput">Access Key</label>
+            <div class="invalid-feedback">
+              Este campo es requerido.
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="d-grid gap-2">
+            <button class="btn btn-primary rounded-pill" type="submit">
+              validar
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+    </form>
+    <div class="w-100"></div>
+    <div class="col-12 col-md-6 mb-4" *ngIf="false">
       <div class="card" [formGroup]="indiceForm">
-        <select class="form-select" aria-label="Default select example" formControlName="indice">
+        <select class="form-select" aria-label="Default select example" formControlName="nombre">
           <option [value]="null">Selecciona un Indice</option>
           <option [value]="item.Nombre" *ngFor="let item of indices">{{item.Nombre}}</option>
         </select>
       </div>
     </div>
     <div class="w-100"></div>
-    <div class="col-12 col-md-6" *ngIf="dataSet?.length >=1 ">
+    <div class="col-12 col-md-6 mt-5 mb-2 " *ngIf="indiceSelected">
+      <app-grafics [min]="min" [max]="max" [title]="indiceSelected.Nombre"></app-grafics>
+    </div>
+    <div class="w-100"></div>
+    <div class="col-12 col-md-6" *ngIf="indiceSelected">
+      <div class="d-grid gap-2">
+        <button class="btn btn-primary rounded-pill" type="button" data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Ver detalles
+        </button>
+      </div>
 
-      <app-grafics [datasets]="dataSet" [labels]="['Valores']"></app-grafics>
 
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+          <h5 id="offcanvasRightLabel"> <span class="fw-bold">Indice: </span> {{indiceSelected.Nombre}}</h5>
+          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <h5> <span class="fw-bold mb-2">Valor: </span> {{indiceSelected.Valor}} </h5>
+          <h5> <span class="fw-bold mb-2">Valor mínimo: </span> {{indiceSelected.Menor}} </h5>
+          <h5> <span class="fw-bold mb-2">Valor máximo: </span> {{indiceSelected.Mayor}} </h5>
+          <h5> <span class="fw-bold mb-2">Medio: </span> {{indiceSelected.Medio}} </h5>
+          <h5> <span class="fw-bold mb-2">Variación: </span> <span class="text-danger"
+              [ngClass]="{'text-success': indiceSelected.Variacion >= 0}">{{indiceSelected.Variacion}}</span> </h5>
+        </div>
+      </div>
     </div>
   </div>
 </div>

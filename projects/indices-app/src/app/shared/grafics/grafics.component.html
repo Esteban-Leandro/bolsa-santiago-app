@@ -1,9 +1,38 @@
-<div style="display: block">
-  <canvas
-    baseChart
-    [data]="barChartData"
-    [options]="barChartOptions"
-    [type]="barChartType"
-    style="fill: white;">
-  </canvas>
-</div>
+<!-- <ngx-charts-line-chart
+  [view]="view"
+  [scheme]="'nightLights'"
+  [legend]="legend"
+  [showXAxisLabel]="showXAxisLabel"
+  [showYAxisLabel]="showYAxisLabel"
+  [xAxis]="xAxis"
+  [yAxis]="yAxis"
+  [xAxisLabel]="xAxisLabel"
+  [yAxisLabel]="yAxisLabel"
+  [timeline]="timeline"
+  [results]="multi"
+  (select)="onSelect($event)"
+  (activate)="onActivate($event)"
+  (deactivate)="onDeactivate($event)"
+  style="fill: white;"
+  >
+</ngx-charts-line-chart> -->
+
+
+<ngx-charts-bar-vertical
+  [view]="view"
+  [scheme]="colorScheme"
+  [results]="results"
+  [gradient]="gradient"
+  [xAxis]="showXAxis"
+  [yAxis]="showYAxis"
+  [legend]="showLegend"
+  [showXAxisLabel]="showXAxisLabel"
+  [showYAxisLabel]="showYAxisLabel"
+  [xAxisLabel]="title"
+  [yAxisLabel]="yAxisLabel"
+  (select)="onSelect($event)"
+  style="fill: white;"
+  [yScaleMin]="min"
+  [yScaleMax]="max"
+  >
+</ngx-charts-bar-vertical>
